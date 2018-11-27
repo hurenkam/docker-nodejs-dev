@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Create groups
 cat /config/groups.conf | while read LINE
 do
   value=(`echo $LINE | sed 's/:/\n/g'`)
@@ -9,6 +10,7 @@ do
   addgroup --gid $gid $group
 done
 
+# Create users
 cat /config/users.conf | while read LINE
 do
   value=(`echo $LINE | sed 's/:/\n/g'`)
@@ -21,6 +23,9 @@ do
   echo "$user:$passwd" | chpasswd
   echo -e "$passwd\n$passwd" | smbpasswd -s -a -c /config/smb.conf "$user"
 done
+
+# Need to copy exports, since nfs-server can not be started with arbitrary config file
+cp /config/exports /etc/exports
 
 # run CMD
 exec "${@}"
