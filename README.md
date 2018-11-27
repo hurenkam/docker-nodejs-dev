@@ -1,4 +1,4 @@
-docker-fileserver
+- docker-fileserver
 Alpine Linux based Time Machine / Samba / NFS server
 
 Currently supports:
@@ -18,4 +18,4 @@ How to use this image:
 - afp.conf is configuration used for afp.
   
 Typical command to run this image:
-docker-user$ docker run -d --net=host -v /exports:/exports -v /docker-user/config:/config hurenkam/fileserver:latest
+- docker-user$ docker run -d --net=host -v /exports:/exports -v /docker-user/config:/config hurenkam/fileserver:latest
