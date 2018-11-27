@@ -1,4 +1,4 @@
-FROM hurenkam/alpine:latest
+FROM alpine:3.8
 MAINTAINER Mark Hurenkamp <mark.hurenkamp@xs4all>
 
 RUN apk --no-cache update &&\
