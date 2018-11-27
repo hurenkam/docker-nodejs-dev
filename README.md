@@ -17,4 +17,4 @@ Alpine Linux based Time Machine / Samba / NFS server
 - afp.conf is configuration used for afp.
   
 ### Typical command to run this image:
-- docker run -d --net=host -v /exports:/exports -v /etc/fileserver-config:/config hurenkam/fileserver:latest
+- docker run -d --privileged --net=host -v /exports:/exports -v /etc/fileserver-config:/config hurenkam/fileserver:latest
