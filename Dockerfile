@@ -5,7 +5,7 @@ RUN apk --no-cache update &&\
     apk --no-cache add samba samba-common-tools supervisor bash &&\
     apk --no-cache add netatalk avahi dbus
 
-RUN mkdir /scripts /config /exports /exports/samba /exports/timemachine &&\
+RUN mkdir /scripts /config /exports /exports/samba /exports/timemachine
 
 COPY afp.conf smb.conf users.conf groups.conf /config/
 COPY nsswitch.conf supervisord.conf /etc/
