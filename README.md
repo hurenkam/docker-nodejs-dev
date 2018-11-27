@@ -5,9 +5,7 @@ Alpine Linux based Time Machine / Samba / NFS server
 - Time Machine backups from my Macbook Pro
 - Samba access from my Macbook Pro
 - Samba access from my Windows 10 machine
-
-## Todo:
-- Export filesystems through NFS
+- NFS access from my Ubuntu 18.04 machine
 
 ## How to use this image:
 - Provide a /config directory through '-v <path to config>:/config' parameter. In this config directory you can put your afp.conf and smb.conf files, as well as users.conf and groups.conf.
@@ -17,4 +15,4 @@ Alpine Linux based Time Machine / Samba / NFS server
 - afp.conf is configuration used for afp.
   
 ### Typical command to run this image:
-- docker run -d --net=host -v /exports:/exports -v /etc/fileserver-config:/config hurenkam/fileserver:latest
+- docker run -d --privileged --net=host -v /exports:/exports -v /etc/fileserver-config:/config hurenkam/fileserver:latest
