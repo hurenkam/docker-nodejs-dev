@@ -1,2 +1,2 @@
-/exports/nfs                   *(rw,insecure,async,no_root_squash,no_subtree_check)
+/exports/nfs                   *(rw,async,all_squash,no_subtree_check,fsid=0)
 

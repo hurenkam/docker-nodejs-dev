@@ -4,7 +4,7 @@ set -e
 
 # initialize variables
 EXITCODE="0"
-PROCESSES="dbus-daemon avahi-daemon nmbd smbd netatalk afpd cnid_metad"
+PROCESSES="dbus-daemon avahi-daemon nmbd smbd netatalk afpd cnid_metad nfsd.sh"
 
 # check to see if processes are running
 for i in ${PROCESSES}
