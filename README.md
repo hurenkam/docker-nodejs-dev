@@ -18,4 +18,4 @@ How to use this image:
 - afp.conf is configuration used for afp.
   
 Typical command to run this image:
-- docker run -d --net=host -v /exports:/exports -v /docker-user/config:/config hurenkam/fileserver:latest
+- docker run -d --net=host -v /exports:/exports -v /home/user/fileserver-config:/config hurenkam/fileserver:latest
