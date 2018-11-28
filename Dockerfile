@@ -7,11 +7,11 @@ RUN apk --no-cache update &&\
     apk --no-cache add netatalk avahi dbus &&\
     apk --no-cache add nfs-utils iproute2
 
-RUN mkdir /scripts /config /exports /exports/samba /exports/timemachine /exports/nfs
+RUN mkdir /scripts /config /exports /exports/samba /exports/backups /exports/nfs
 
 COPY afp.conf smb.conf users.conf groups.conf exports /config/
 COPY nsswitch.conf supervisord.conf /etc/
-COPY afpd.service /etc/avahi/services/
+COPY afp.service smb.service /etc/avahi/services/
 COPY entrypoint.sh healthcheck.sh nfsd.sh /scripts/
 
 EXPOSE 445 137/udp 138/udp
