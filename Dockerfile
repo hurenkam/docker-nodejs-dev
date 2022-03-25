@@ -20,8 +20,6 @@ RUN curl -L "https://github.com/just-containers/s6-overlay/releases/download/v3.
 COPY etc/ /etc/
 
 RUN mkdir /exports /run/sshd /run/dbus /run/sendsigs.omit.d 
-COPY nfs-kernel-server /etc/default
-COPY lockd.conf /etc/modprobe.d
 
 #COPY afp.conf smb.conf users.conf groups.conf exports /config/
 #COPY nsswitch.conf supervisord.conf /etc/
