@@ -1,2 +1,3 @@
 #!/command/execlineb -P
-/scripts/add-new-groups.sh < /config/groups.conf
+pipeline { cat /config/groups.conf } bash /scripts/add-new-groups.sh
+

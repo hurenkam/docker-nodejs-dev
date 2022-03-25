@@ -1,2 +1,2 @@
 #!/command/execlineb -P
-/scripts/add-new-users.sh < /config/users.conf
+pipeline { cat /config/users.conf } bash /scripts/add-new-users.sh
