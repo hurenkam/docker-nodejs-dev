@@ -1,26 +1,43 @@
-FROM alpine:3.9
+FROM debian:bullseye
 MAINTAINER Mark Hurenkamp <mark.hurenkamp@xs4all>
 
-RUN apk --no-cache update &&\
-    apk --no-cache add bash supervisor &&\
-    apk --no-cache add samba samba-common-tools &&\
-    apk --no-cache add netatalk avahi dbus &&\
-    apk --no-cache add nfs-utils iproute2
+RUN apt-get update && apt-get install -y \
+	kmod \
+	vim \
+	avahi-daemon \
+	avahi-utils \
+	curl \
+	iproute2 \
+	libnfs-utils \
+	netatalk \
+	nfs-kernel-server \
+	openssh-server \
+	samba \
+	xz-utils
 
-RUN mkdir /scripts /config /exports /exports/samba /exports/backups /exports/nfs
+RUN curl -L "https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-noarch.tar.xz" | tar -xJ -C /
+RUN curl -L "https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-x86_64.tar.xz" | tar -xJ -C /
+#RUN cat s6-init.tar.gz | tar -C / -xz
+#COPY s6-init.tar.xz /tmp
+#RUN tar -C / -xJf /tmp/s6-init.tar.xz  && rm /tmp/s6-init.tar.xz
+COPY etc/ /etc/
 
-COPY afp.conf smb.conf users.conf groups.conf exports /config/
-COPY nsswitch.conf supervisord.conf /etc/
-COPY afp.service smb.service /etc/avahi/services/
-COPY entrypoint.sh healthcheck.sh nfsd.sh /scripts/
+RUN mkdir /exports /run/sshd /run/dbus /run/sendsigs.omit.d 
+COPY nfs-kernel-server /etc/default
+COPY lockd.conf /etc/modprobe.d
 
+#COPY afp.conf smb.conf users.conf groups.conf exports /config/
+#COPY nsswitch.conf supervisord.conf /etc/
+#COPY afp.service smb.service /etc/avahi/services/
+#COPY entrypoint.sh healthcheck.sh nfsd.sh /scripts/
+
+EXPOSE 22
 EXPOSE 445 137/udp 138/udp
 EXPOSE 548
-EXPOSE 111/tcp 111/udp 2049/tcp 2049/udp 32765/tcp 32765/udp 32766/tcp 32766/udp
+EXPOSE 111 2049 32765 32766 32767 32768
 
-VOLUME ["/config", "/scripts", "/exports"] 
+#VOLUME ["/config", "/scripts", "/exports"] 
+VOLUME ["/exports"] 
 
-HEALTHCHECK --retries=3 --interval=15s --timeout=5s CMD /scripts/healthcheck.sh
-ENTRYPOINT ["/scripts/entrypoint.sh"]
-CMD ["supervisord","-c","/etc/supervisord.conf"]
- 
+ENTRYPOINT [ "/init" ]
+
