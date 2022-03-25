@@ -15,15 +15,12 @@ RUN apt-get update && apt-get install -y \
 	samba \
 	xz-utils
 
+RUN mkdir /config /scripts /exports /exports/nfs /run/sshd /run/dbus /run/sendsigs.omit.d 
 RUN curl -L "https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-noarch.tar.xz" | tar -xJ -C /
 RUN curl -L "https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-x86_64.tar.xz" | tar -xJ -C /
 COPY etc/ /etc/
-
-RUN mkdir /exports /run/sshd /run/dbus /run/sendsigs.omit.d 
-
-#COPY afp.conf smb.conf users.conf groups.conf exports /config/
-#COPY nsswitch.conf supervisord.conf /etc/
-#COPY entrypoint.sh healthcheck.sh nfsd.sh /scripts/
+COPY config/ /config/
+COPY scripts/ /scripts/
 
 EXPOSE 22
 EXPOSE 445 137/udp 138/udp
