@@ -1,2 +1,1 @@
-/exports/nfs                   *(rw,async,all_squash,no_subtree_check,fsid=0)
-
+/config/exports

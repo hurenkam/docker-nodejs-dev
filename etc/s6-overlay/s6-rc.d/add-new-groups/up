@@ -1,0 +1,2 @@
+#!/command/execlineb -P
+/scripts/add-new-groups < /config/groups.conf
