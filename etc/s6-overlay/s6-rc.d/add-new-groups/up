@@ -1,2 +1,2 @@
 #!/command/execlineb -P
-/scripts/add-new-groups < /config/groups.conf
+/scripts/add-new-groups.sh < /config/groups.conf

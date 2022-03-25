@@ -9,7 +9,7 @@ do
   grep "^$group:" /etc/group
   if [ $? -ne 0 ]; then
     echo "adding group $group with gid $gid" 
-    #addgroup --gid $gid $group
+    addgroup --gid $gid $group
   else
     echo "group $group already exists, skipping"
   fi 

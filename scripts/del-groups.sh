@@ -8,7 +8,7 @@ do
   grep "^$group:" /etc/group
   if [ $? -ne 1 ]; then
     echo "deleting group $group" 
-    #delgroup $group
+    delgroup $group
   else
     echo "group $group not found, skipping"
   fi 

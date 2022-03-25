@@ -11,9 +11,9 @@ do
   grep "^$user:" /etc/passwd
   if [ $? -ne 0 ]; then
     echo "adding user $user with uid $uid" 
-    #adduser -D -H -s /bin/false -u $uid -G $group $user
-    #echo "$user:$passwd" | chpasswd
-    #echo -e "$passwd\n$passwd" | smbpasswd -s -a -c /config/smb.conf "$user"
+    adduser --quiet --gecos "" --disabled-password --no-create-home --shell /bin/false --uid $uid --ingroup $group $user
+    echo "$user:$passwd" | chpasswd
+    echo -e "$passwd\n$passwd" | smbpasswd -s -a -c /config/smb.conf "$user"
   else
     echo "not adding user $user because it already exists" 
   fi

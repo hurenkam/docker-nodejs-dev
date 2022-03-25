@@ -8,8 +8,8 @@ do
   grep "^$user:" /etc/passwd
   if [ $? -ne 1 ]; then
     echo "removing user $user" 
-    #deluser $user
-    #smbpasswd -s -x -c /config/smb.conf "$user"
+    deluser $user
+    smbpasswd -s -x -c /config/smb.conf "$user"
   else
     echo "user $user not found, skipping" 
   fi
