@@ -27,7 +27,7 @@ EXPOSE 445 137/udp 138/udp
 EXPOSE 548
 EXPOSE 111 2049 32765 32766 32767 32768
 
-VOLUME ["/exports"] 
+VOLUME ["/config"] 
 
 ENTRYPOINT [ "/init" ]
 
