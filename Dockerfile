@@ -18,6 +18,11 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir /config /scripts /exports /exports/nfs /run/sshd /run/dbus /run/sendsigs.omit.d 
 RUN curl -L "https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-noarch.tar.xz" | tar -xJ -C /
 RUN curl -L "https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-x86_64.tar.xz" | tar -xJ -C /
+
+RUN echo "deb https://pkg.ltec.ch/public/ bullseye main" > /etc/apt/sources.list.d/wsdd.list
+RUN apt-key adv --fetch-keys https://pkg.ltec.ch/public/conf/ltec-ag.gpg.key
+RUN apt-get update && apt-get install -y wsdd
+
 COPY etc/ /etc/
 COPY config/ /config/
 COPY scripts/ /scripts/

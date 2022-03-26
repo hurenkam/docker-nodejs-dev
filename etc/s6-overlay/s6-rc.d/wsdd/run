@@ -1,0 +1,4 @@
+#!/command/execlineb -P
+backtick WSDD_PARAMS { pipeline { grep WSDD_PARAMS /etc/wsdd.conf } pipeline { sed s/WSDD_PARAMS=// } sed s/\"//g }
+importas wsdd_params WSDD_PARAMS
+wsdd ${wsdd_params}
