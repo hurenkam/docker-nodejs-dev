@@ -1,24 +1,5 @@
-FROM debian:bullseye
+FROM docker.io/hurenkam/debian-cockpit
 MAINTAINER Mark Hurenkamp <mark.hurenkamp@xs4all>
-
-# install base packages
-# systemd / ssh / vim / ip utils
-RUN apt-get update && apt-get install -y \
-	systemd \
-	systemd-sysv \
-        cron \
-        anacron \
-	openssh-server \
-	vim \
-	iproute2
-
-# install minimum cockpit packages
-# for system administration
-RUN apt-get update && apt-get install -y \
-	cockpit-bridge \
-	cockpit-ws \
-	cockpit-system
-
 
 # install fileserver related packages
 # avahi / nfs / afp / samba
@@ -36,14 +17,12 @@ RUN echo "deb https://pkg.ltec.ch/public/ bullseye main" > /etc/apt/sources.list
 RUN apt-key adv --fetch-keys https://pkg.ltec.ch/public/conf/ltec-ag.gpg.key
 RUN apt-get update && apt-get install -y wsdd
 
-
 # install cockpit-file-sharing
 RUN apt-get update && apt-get install -y \
 	git \
 	make
 
 RUN cd /root && git clone https://github.com/45Drives/cockpit-file-sharing.git && cd cockpit-file-sharing && make install
-
 
 # clean-up after apt
 RUN apt-get clean && rm -rf \
@@ -55,38 +34,16 @@ RUN apt-get clean && rm -rf \
     /var/log/apt/term.log \
     /var/log/dpkg.log
 
-
-# clean-up unwanted systemd dependencies
-RUN cd /lib/systemd/system/sysinit.target.wants/ \
-    && rm $(ls | grep -v systemd-tmpfiles-setup)
-
-RUN rm -f \
-    /lib/systemd/system/multi-user.target.wants/* \
-    /etc/systemd/system/*.wants/* \
-    /lib/systemd/system/local-fs.target.wants/* \
-    /lib/systemd/system/sockets.target.wants/*udev* \
-    /lib/systemd/system/sockets.target.wants/*initctl* \
-    /lib/systemd/system/basic.target.wants/* \
-    /lib/systemd/system/anaconda.target.wants/* \
-    /lib/systemd/system/plymouth* \
-    /lib/systemd/system/systemd-update-utmp*
-
-RUN rm -f \
-    /etc/machine-id \
-    /var/lib/dbus/machine-id
-
-RUN systemctl mask -- \
-    dev-hugepages.mount \
-    sys-fs-fuse-connections.mount
-
-
-# create required directories
-RUN mkdir /config /scripts /exports /exports/nfs 
-
 # copy overlay directories
 COPY etc/ /etc/
-COPY config/ /config/
-COPY scripts/ /scripts/
+
+
+
+# Build final image.
+# Create an image without the deleted files in the intermediate layers.
+
+FROM docker.io/hurenkam/debian-cockpit
+COPY --from=0 / /
 
 
 # expose ssh port
@@ -110,7 +67,7 @@ ENV container docker
 STOPSIGNAL SIGRTMIN+3
 
 
-VOLUME ["/sys/fs/cgroup","/run","/run/lock","/tmp"] 
+VOLUME ["/sys/fs/cgroup"] 
 
 CMD [ "/sbin/init" ]
 
