@@ -24,8 +24,11 @@ RUN apt-get update && apt-get install -y \
 
 RUN cd /root && git clone https://github.com/45Drives/cockpit-file-sharing.git && cd cockpit-file-sharing && make install
 
-# clean-up after apt
-RUN apt-get clean && rm -rf \
+# clean-up
+RUN apt-get remove -y git make && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf \
     /var/lib/apt/lists/* \
     /tmp/* \
     /var/tmp/* \
@@ -33,6 +36,7 @@ RUN apt-get clean && rm -rf \
     /var/log/apt/history.log \
     /var/log/apt/term.log \
     /var/log/dpkg.log
+    /root/cockpit-file-sharing
 
 # copy overlay directories
 COPY etc/ /etc/
