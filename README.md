@@ -1,19 +1,12 @@
-# docker-fileserver
-Debian Linux (v11 - bullseye) based remote development server
-
-## To be supported: (work in progress)
-Remote development for:
-- cockpit
-- nodered
-- nodejs
-- qt
+# docker-nodejs-dev
+Debian Linux (v11 - bullseye) based remote development server for nodejs
 
 ## How to use this image:
 Point your browser to localhost:9090 where you find a running cockpit instance
 Using the Accounts section you can add linux user accounts.
   
 ### Typical command to run this image:
-- docker run -d --privileged hurenkam/development:latest
+- docker run -d --privileged docker.io/hurenkam/debian-nodejs-dev:latest
 
 ## Credits:
 To get debian working with systemd, i based it on these Dockerfiles:
